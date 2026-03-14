@@ -1,0 +1,38 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+          cache: maven
+
+      - name: Validate deployment secrets
+        env:
+          ANYPOINT_USERNAME: ${{ secrets.ANYPOINT_USERNAME }}
+          ANYPOINT_PASSWORD: ${{ secrets.ANYPOINT_PASSWORD }}
+        run: |
+          [ -n "$ANYPOINT_USERNAME" ] || (echo "ANYPOINT_USERNAME is not set" && exit 1)
+          [ -n "$ANYPOINT_PASSWORD" ] || (echo "ANYPOINT_PASSWORD is not set" && exit 1)
+
+      - name: Deploy with Maven
+        env:
+          ANYPOINT_USERNAME: ${{ secrets.ANYPOINT_USERNAME }}
+          ANYPOINT_PASSWORD: ${{ secrets.ANYPOINT_PASSWORD }}
+        run: >
+          mvn -B -ntp deploy -DmuleDeploy
+          -Danypoint.username=${ANYPOINT_USERNAME}
+          -Danypoint.password=${ANYPOINT_PASSWORD}
