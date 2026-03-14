@@ -31,7 +31,7 @@ jobs:
 
       - name: Validate deployment secrets
         run: |
-          [ -n "$ANYPOINT_USERNAME" ] && [ -n "$ANYPOINT_PASSWORD" ] || (echo "Required Anypoint credentials are not configured" && exit 1)
+          [ -n "$ANYPOINT_USERNAME" ] && [ -n "$ANYPOINT_PASSWORD" ] || (echo "Configure ANYPOINT_USERNAME and ANYPOINT_PASSWORD in GitHub repository Settings > Secrets and variables > Actions" && exit 1)
 
       - name: Deploy with Maven
         run: mvn -B -ntp deploy -DmuleDeploy
