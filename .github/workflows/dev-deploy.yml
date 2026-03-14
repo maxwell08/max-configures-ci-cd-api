@@ -5,10 +5,12 @@ on:
   push:
     branches:
       - main
-      - master
       - develop
       - dev
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   ci:
@@ -24,8 +26,8 @@ jobs:
           java-version: "8"
           cache: maven
 
-      - name: Build
-        run: mvn -B -ntp -DskipTests package
+      - name: Build and test
+        run: mvn -B -ntp verify
 
   deploy-dev:
     if: github.event_name != 'pull_request'
