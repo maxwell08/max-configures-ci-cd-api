@@ -1,0 +1,37 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      ANYPOINT_USERNAME: ${{ secrets.ANYPOINT_USERNAME }}
+      ANYPOINT_PASSWORD: ${{ secrets.ANYPOINT_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+          cache: maven
+          server-id: anypoint-exchange-v2
+          server-username: ANYPOINT_USERNAME
+          server-password: ANYPOINT_PASSWORD
+
+      - name: Validate deployment secrets
+        run: |
+          [ -n "$ANYPOINT_USERNAME" ] && [ -n "$ANYPOINT_PASSWORD" ] || (echo "Required Anypoint credentials are not configured" && exit 1)
+
+      - name: Deploy with Maven
+        run: mvn -B -ntp deploy -DmuleDeploy
