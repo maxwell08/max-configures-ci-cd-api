@@ -29,8 +29,8 @@
                     <cloudHubDeployment>
                         <uri>https://anypoint.mulesoft.com</uri>
                         <muleVersion>4.3.0</muleVersion>
-                        <username>gomesm1</username>
-                        <password>08**Sarkofodo</password>
+                        <username>${env.ANYPOINT_USERNAME}</username>
+                        <password>${env.ANYPOINT_PASSWORD}</password>
                         <applicationName>max-configures-ci-cd-api</applicationName>
                         <environment>DEV</environment>
                         <workerType>MICRO</workerType>
