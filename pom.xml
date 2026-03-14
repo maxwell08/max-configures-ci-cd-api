@@ -26,16 +26,6 @@
                 <version>3.3.5</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <cloudHubDeployment>
-                        <uri>https://anypoint.mulesoft.com</uri>
-                        <muleVersion>4.3.0</muleVersion>
-                        <username>${env.ANYPOINT_USERNAME}</username>
-                        <password>${env.ANYPOINT_PASSWORD}</password>
-                        <applicationName>max-configures-ci-cd-api</applicationName>
-                        <environment>DEV</environment>
-                        <workerType>MICRO</workerType>
-                        <objectStoreV2>true</objectStoreV2>
-                    </cloudHubDeployment>
                 </configuration>
             </plugin>
         </plugins>
